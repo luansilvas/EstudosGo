@@ -1,7 +1,6 @@
 package transactions
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -22,9 +21,6 @@ func CalculateAvailable(transactions []Transaction, limit float64, periodMinutes
 	}
 
 	available := limit - totalTransferred
-	if available < 0 {
-		return 0, fmt.Errorf("exceeded limit: %.2f transferred in the last %d minutes", totalTransferred, periodMinutes)
-	}
 
 	return available, nil
 }
