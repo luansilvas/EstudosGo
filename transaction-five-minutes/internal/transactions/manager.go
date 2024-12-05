@@ -2,7 +2,6 @@ package transactions
 
 import (
 	"autorizador-debito/internal/config"
-	"context"
 	"fmt"
 	"sync"
 	"time"
@@ -21,13 +20,7 @@ func NewTransactionManager() *TransactionManager {
 	}
 }
 
-func (tm *TransactionManager) ProcessTransaction(ctx context.Context, userId string, value float64) error {
-	select {
-	case <-ctx.Done():
-		return fmt.Errorf("operation canceled or timed out: %w", ctx.Err())
-	default:
-	}
-
+func (tm *TransactionManager) ProcessTransaction(userId string, value float64) error {
 	transactionsByUser := tm.getTransactions(userId)
 	available, err := CalculateAvailable(transactionsByUser, tm.config.TransactionLimit, tm.config.TransactionPeriod)
 	if err != nil {
@@ -35,7 +28,7 @@ func (tm *TransactionManager) ProcessTransaction(ctx context.Context, userId str
 	}
 
 	if available < value {
-		return fmt.Errorf("insufficient limit")
+		return fmt.Errorf("Limite insuficiente.")
 	}
 
 	tm.appendTransaction(userId, Transaction{

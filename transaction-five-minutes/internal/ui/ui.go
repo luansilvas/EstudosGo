@@ -2,10 +2,8 @@ package ui
 
 import (
 	"autorizador-debito/internal/transactions"
-	"context"
 	"fmt"
 	"log/slog"
-	"time"
 )
 
 func ShowIntroduction() {
@@ -24,25 +22,22 @@ func ReadCommand() int {
 	return command
 }
 
-func ProcessTransaction(ctx context.Context, tm *transactions.TransactionManager) {
-	fmt.Println("Please type the userId that wants to authorize")
+func ProcessTransaction(tm *transactions.TransactionManager) {
+	fmt.Println("Digite o ID do usuário que deseja operar:")
 
 	var userId string
 	_, _ = fmt.Scan(&userId)
-	slog.Debug("User id successfully typed", "userId", userId)
+	slog.Debug("Id de usuário recebido com sucesso", "userId", userId)
 
-	fmt.Println("Now tell how much money you want to transfer")
+	fmt.Println("Digite o valor que deseja transferir:")
 	var value float64
 	_, _ = fmt.Scan(&value)
-	slog.Debug("Value successfully sent", "value", value)
+	slog.Debug("Valor de transferencia recebido", "value", value)
 
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
-
-	err := tm.ProcessTransaction(ctx, userId, value)
+	err := tm.ProcessTransaction(userId, value)
 	if err != nil {
-		fmt.Printf("Error processing transaction. error: %v\n", err)
+		fmt.Printf("Erro ao processar transação. erro: %v\n", err)
 	} else {
-		fmt.Println("Transaction successful.")
+		fmt.Println("Transação bem-sucedida!")
 	}
 }

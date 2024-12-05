@@ -3,10 +3,8 @@ package main
 import (
 	"autorizador-debito/internal/transactions"
 	"autorizador-debito/internal/ui"
-	"context"
 	"fmt"
 	"os"
-	"time"
 )
 
 func main() {
@@ -19,9 +17,7 @@ func main() {
 		command := ui.ReadCommand()
 		switch command {
 		case 2:
-			ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-			ui.ProcessTransaction(ctx, transactionManager)
-			cancel()
+			ui.ProcessTransaction(transactionManager)
 		case 0:
 			fmt.Println("exiting...")
 			os.Exit(0)
