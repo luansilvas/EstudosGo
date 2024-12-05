@@ -1,7 +1,7 @@
 # Gerenciador de Temperatura e Autorizador de Débito
 - Autorizador de Débito (Questão 1): Gerencia transações de clientes respeitando limites financeiros e temporais.
 - Gerenciador de Temperatura (Questão 2): Coordena processos concorrentes (observador e tratadores) usando notificações.
-- 
+
 ## Estrutura do Repositório
 ````
 ├── gerenciador-de-temperatura/       # Código da Questão 2
@@ -71,8 +71,8 @@ O Gerenciador de Temperatura possui três processos concorrentes:
 
 ### Tratadores 1 e 2:
 - Cada tratador processa notificações:
-- Após 10 notificações, imprime os valores processados.
-- Sincroniza com o Observador usando [sync.Cond](https://pkg.go.dev/sync#Cond).
+  - Após 10 notificações, imprime os valores processados.
+  - Sincroniza com o Observador usando [sync.Cond](https://pkg.go.dev/sync#Cond).
 
 ### Semáforo
 Para implementação de um semafóro, cada goroutine possui seu Cond, que partilham do mesmo Mutex. Tais goroutines ficam com o lock `liberado`, à espera de um sinal é emitido pelo observador que também detém os Conds
